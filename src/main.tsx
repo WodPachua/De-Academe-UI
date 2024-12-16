@@ -3,8 +3,10 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Error from './components/common/Error.tsx';
+import Error from './pages/Error.tsx';
 import HomePage from './pages/HomePage.tsx';
+import { ThemeSettings } from './utils/theme/Theme.tsx';
+import { ThemeProvider } from '@mui/material/styles';
 
 const router = createBrowserRouter([
   {
@@ -21,8 +23,12 @@ const router = createBrowserRouter([
   }
 ]);
 
+const theme = ThemeSettings();
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>,
 )
