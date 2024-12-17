@@ -13,12 +13,13 @@ const Logo = () => {
   }));
 
   return (
-    <LinkStyled to="/dashboard">
+    <LinkStyled to="/">
         <img
-          src="/images/logo.png"
+          // src="/images/logo.png"
+          src="/images/academe1.svg"
           alt="logo"
           height={70}
-          width={100}
+          width={174}
         />
     </LinkStyled>
   );

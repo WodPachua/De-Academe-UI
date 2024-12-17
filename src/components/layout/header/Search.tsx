@@ -67,10 +67,10 @@ const Search = () => {
           <Box>
             <List component="nav">
                   <Box key={'Home'}>
-                      <ListItemButton sx={{ py: 0.5, px: 1 }} href={'/dashboard'} component={Link}>
+                      <ListItemButton sx={{ py: 0.5, px: 1 }} to={'/'} component={Link}>
                         <ListItemText
                           primary={'Home'}
-                          secondary={'/dashboard/'}
+                          secondary={'Home Page of the site'}
                           sx={{ my: 0, py: 0.5 }}
                         />
                       </ListItemButton>
