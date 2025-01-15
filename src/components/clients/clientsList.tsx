@@ -303,8 +303,6 @@ const ClientsList = () => {
   return (
     <PageContainer title="Clients" description="Academe Clients Table">
       <Box>
-      <Box>
-      <Box>
         <EnhancedTableToolbar
           numSelected={selected.length}
           search={search}
@@ -441,8 +439,6 @@ const ClientsList = () => {
             label="Dense padding"
           />
         </Box> */}
-      </Box>
-    </Box>
       </Box>
     </PageContainer>
   );

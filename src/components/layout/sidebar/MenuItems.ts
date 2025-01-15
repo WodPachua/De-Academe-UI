@@ -42,7 +42,7 @@ const Menuitems: MenuitemsType[] = [
         id: uniqueId(),
         title: "Client",
         icon: IconPoint,
-        href: "",
+        href: "/clients/register/",
       },
       {
         id: uniqueId(),

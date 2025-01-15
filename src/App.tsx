@@ -47,7 +47,7 @@ function App() {
         <Container
           sx={{
             pt: '30px',
-            maxWidth: "100%!important",
+            maxWidth: "lg",
           }}
         >
           <Box sx={{ minHeight: "calc(100vh - 170px)" }}>

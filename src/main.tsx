@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage.tsx';
 import { ThemeSettings } from './utils/theme/Theme.tsx';
 import { ThemeProvider } from '@mui/material/styles';
 import ClientsList from './components/clients/clientsList.tsx';
+import ClientForm from './components/clients/clientForm.tsx';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,12 @@ const router = createBrowserRouter([
       {
         path: "/clients",
         element: <ClientsList />,
-        errorElement: <Error />
+        errorElement: <Error />,
+      },
+      {
+        path: "/clients/register/",
+        element: <ClientForm />,
+        errorElement: <Error />,
       },
     ]
   }
