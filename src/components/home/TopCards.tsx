@@ -1,47 +1,62 @@
 'use client'
 import { Box, CardContent, Grid, Typography } from "@mui/material";
-
-const topcards = [
-  {
-    icon: '/images/svgs/icon-briefcase.svg',
-    title: "Clients",
-    digits: "50",
-    bgcolor: "warning",
-  },
-  {
-    icon: '/images/svgs/icon-user-male.svg',
-    title: "Employees",
-    digits: "8",
-    bgcolor: "primary",
-  },
-
-  {
-    icon: '/images/svgs/icon-mailbox.svg',
-    title: "Projects",
-    digits: "3",
-    bgcolor: "secondary",
-  },
-  {
-    icon: '/images/svgs/icon-favorites.svg',
-    title: "Modules",
-    digits: "6",
-    bgcolor: "error",
-  },
-  {
-    icon: '/images/svgs/icon-speech-bubble.svg',
-    title: "Payroll",
-    digits: "3m",
-    bgcolor: "success",
-  },
-  {
-    icon: '/images/svgs/icon-connect.svg',
-    title: "Reports",
-    digits: "4",
-    bgcolor: "info",
-  },
-];
+import { RootState } from "../../store/appStore";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/appStore";
+import { fetchClients } from "../../store/slices/clientSlice";
 
 const TopCards = () => {
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchClients());
+}, [dispatch]);
+
+  const clients = useSelector((state: RootState) => state.clients.clients);
+  const numberOfClients = clients.length;
+
+  const topcards = [
+    {
+      icon: '/images/svgs/icon-briefcase.svg',
+      title: "Clients",
+      digits: numberOfClients.toString(),
+      bgcolor: "warning",
+    },
+    {
+      icon: '/images/svgs/icon-user-male.svg',
+      title: "Employees",
+      digits: "0",
+      bgcolor: "primary",
+    },
+    {
+      icon: '/images/svgs/icon-mailbox.svg',
+      title: "Projects",
+      digits: "0",
+      bgcolor: "secondary",
+    },
+    {
+      icon: '/images/svgs/icon-favorites.svg',
+      title: "Modules",
+      digits: "0",
+      bgcolor: "error",
+    },
+    {
+      icon: '/images/svgs/icon-speech-bubble.svg',
+      title: "Payroll",
+      digits: "0",
+      bgcolor: "success",
+    },
+    {
+      icon: '/images/svgs/icon-connect.svg',
+      title: "Reports",
+      digits: "0",
+      bgcolor: "info",
+    },
+  ];
+
   return (
     <Grid container spacing={3}>
       {topcards.map((topcard, i) => (

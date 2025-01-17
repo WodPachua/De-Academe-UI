@@ -1,7 +1,7 @@
 'use client'
 import { Box } from "@mui/material";
 import PageContainer from "../layout/PageContainer";
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import { format } from 'date-fns';
 import Avatar from '@mui/material/Avatar';
@@ -24,11 +24,10 @@ import { visuallyHidden } from '@mui/utils';
 import CustomCheckbox from "../shared/CustomCheckbox";
 import { IconDotsVertical, IconFilter, IconSearch, IconTrash } from '@tabler/icons-react';
 import { ClientType } from "../../types/clients";
-import clientsData from "../../api/ProductsData";
-// import { useSelector, useDispatch } from '@/store/hooks';
-// import { fetchProducts } from '@/store/apps/eCommerce/ECommerceSlice';
-// import CustomSwitch from '../../../forms/theme-elements/CustomSwitch';
-// import FormControlLabel from '@mui/material/FormControlLabel';
+import { getClients } from "../../api/clientApi";
+import { AppDispatch, RootState } from "../../store/appStore";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchClients, removeClient } from "../../store/slices/clientSlice";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -221,19 +220,27 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 const ClientsList = () => {
-
-    const [order, setOrder] = React.useState<Order>('asc');
+  const dispatch: AppDispatch = useDispatch();
+  const { clients, loading, error } = useSelector((state: RootState) => state.clients);
+  const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<any>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense,] = React.useState(true);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const [rows, setRows] = React.useState<any>(clientsData);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rows, setRows] = React.useState<ClientType[]>([]);
   const [search, setSearch] = React.useState('');
 
+  useEffect(() => {
+      dispatch(fetchClients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setRows(clients);
+  }, [clients]);
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const filteredRows: ClientType[] = clientsData.filter((row) => {
+    const filteredRows: ClientType[] = clients?.filter((row: { first_name: string; last_name: string; }) => {
     return row.first_name.toLowerCase().includes(event.target.value.toLowerCase()) || row.last_name.toLowerCase().includes(event.target.value.toLowerCase());
     });
     setSearch(event.target.value);

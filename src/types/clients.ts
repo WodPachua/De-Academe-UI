@@ -28,6 +28,7 @@ export interface ProductType {
     nin?: string;
     phone_number?: string;
     status?: string;
+    key: string | number | boolean;
   }
   
   export interface ProductFiterType {

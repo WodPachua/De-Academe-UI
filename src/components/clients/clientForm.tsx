@@ -32,6 +32,10 @@ import {
   import PageContainer from '../layout/PageContainer';
   import { useState } from 'react';
   import ParentCard from '../shared/ParentCard';
+  import { useDispatch } from 'react-redux';
+  import type { AppDispatch } from '../../store/appStore';
+  import { addClient } from '../../store/slices/clientSlice';
+  import { useNavigate } from 'react-router-dom';
   
   const validationSchema = yup.object({
     first_name: yup.string().max(100, 'First name must be at most 100 characters').required('First name is required'),
@@ -54,30 +58,18 @@ import {
   }
   
   const ClientForm = () => {
-    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState<boolean>(false);
   
       const handleSubmitForm = async (values: FormValues): Promise<void> => {
           setLoading(true);
-          const {
-              first_name,
-              last_name,
-              email,
-              nin,
-              phone_number,
-              status,
-              payment_status,
-          } = values;
-  
-          const formData: FormData = new FormData();
-          formData.append('first_name', first_name);
-          formData.append('last_name', last_name);
-          formData.append('email', email);
-          formData.append('nin', nin);
-          formData.append('phone_number', phone_number);
-          formData.append('status', status);
-          formData.append('payment_status', payment_status.toString());
-  
+
+          dispatch(addClient(values));
+
           setLoading(false);
+
+          navigate('/clients');
       };
   
     const formik = useFormik({
@@ -103,10 +95,10 @@ import {
           <Box>
           <ParentCard title="Create New Client" footer={<>
           <Stack direction="row" spacing={2}>
-                <Button variant="text" color="error">
+                <Button variant="text" color="error" onClick={() => navigate('/')}>
                   Cancel
                 </Button>
-                <Button variant="contained" color="primary" type="submit">
+                <Button variant="contained" color="primary" onClick={() => formik.handleSubmit()}>
                   {loading ? <CircularProgress size={24} /> : 'Save'}
                 </Button>
               </Stack>

@@ -9,6 +9,9 @@ import { ThemeSettings } from './utils/theme/Theme.tsx';
 import { ThemeProvider } from '@mui/material/styles';
 import ClientsList from './components/clients/clientsList.tsx';
 import ClientForm from './components/clients/clientForm.tsx';
+import { Provider } from 'react-redux';
+import store from './store/appStore';
+import { ClientProvider } from './context/ClientContext';
 
 const router = createBrowserRouter([
   {
@@ -39,8 +42,12 @@ const theme = ThemeSettings();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  </StrictMode>,
-)
+    <Provider store={store}>
+        <ClientProvider>
+          <ThemeProvider theme={theme}>
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </ClientProvider>
+    </Provider>
+  </StrictMode>
+);

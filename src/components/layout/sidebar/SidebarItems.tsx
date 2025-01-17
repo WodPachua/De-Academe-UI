@@ -1,5 +1,16 @@
-import Menuitems from './MenuItems';
-// import { usePathname } from "next/navigation";
+import {
+  IconBoxMultiple,
+  IconPoint,
+  IconGitMerge,
+  IconCurrencyDollar,
+  IconStar,
+  IconPackage,
+  IconChartDots,
+  IconUserPlus,
+  IconSettings,
+  IconLockAccess,
+} from "@tabler/icons-react";
+import { uniqueId } from "lodash";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,18 +19,129 @@ import NavCollapse from './NavCollapse';
 import NavGroup from './NavGroup/NavGroup';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/appStore';
 
+interface MenuitemsType {
+  [x: string]: any;
+  id?: string;
+  navlabel?: boolean;
+  subheader?: string;
+  title?: string;
+  icon?: any;
+  href?: string;
+  children?: MenuitemsType[];
+  chip?: string;
+  chipColor?: string;
+  variant?: string;
+  external?: boolean;
+}
 
 const SidebarItems = () => {
   const [isCollapse, toggleIsCollapse] = useState(false);
   const isSidebarHover = false;
-  // const  pathname  = usePathname();
   const location = useLocation();
   const pathname = location.pathname;
   const pathDirect = pathname;
   const pathWithoutLastPart = pathname.slice(0, pathname.lastIndexOf('/'));
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
   const hideMenu: any = lgUp ? isCollapse && !isSidebarHover : '';
+
+  const clients = useSelector((state: RootState) => state.clients.clients);
+  const numberOfClients = clients.length;
+
+  const Menuitems: MenuitemsType[] = [
+    {
+      navlabel: true,
+      subheader: "Home",
+    },
+    {
+      id: uniqueId(),
+      title: "Register",
+      icon: IconUserPlus,
+      href: "",
+      children: [
+        {
+          id: uniqueId(),
+          title: "Client",
+          icon: IconPoint,
+          href: "/clients/register/",
+        },
+        {
+          id: uniqueId(),
+          title: "Employee",
+          icon: IconPoint,
+          href: "",
+        },
+      ],
+    },
+    {
+      id: uniqueId(),
+      title: "Maintenance",
+      icon: IconSettings,
+      href: "",
+    },
+  
+    {
+      navlabel: true,
+      subheader: "Academe",
+    },
+    {
+      id: uniqueId(),
+      title: "Clients",
+      icon: IconPackage,
+      chip: numberOfClients.toString(),
+      chipColor: "secondary",
+      href: "/clients",
+    },
+    {
+      id: uniqueId(),
+      title: "Modules",
+      icon: IconLockAccess,
+      chip: "0",
+      chipColor: "primary",
+      href: "",
+    },
+    {
+      id: uniqueId(),
+      title: "Schedule",
+      icon: IconGitMerge,
+      href: "",
+    },
+    {
+      id: uniqueId(),
+      title: "Accounts",
+      icon: IconCurrencyDollar,
+      href: "",
+    },
+    {
+      navlabel: true,
+      subheader: "Reporting",
+    },
+    {
+      id: uniqueId(),
+      title: "Meeting Minutes",
+      icon: IconBoxMultiple,
+      chip: "0",
+      href: "",
+      chipColor: "secondary",
+    },
+    {
+      id: uniqueId(),
+      title: "Reports",
+      icon: IconChartDots,
+      href: "",
+      chip: "0",
+      chipColor: "primary",
+    },
+    {
+      id: uniqueId(),
+      title: "Saved",
+      external: true,
+      icon: IconStar,
+      href: "",
+    },
+  ];
 
   return (
     <Box sx={{ px: 3 }}>
